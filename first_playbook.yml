@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+  - name: Package installation
+    dnf:
+      name:
+        - git
+        - htop
+        - nmap
+        - apache2
+        - net-tools
+        - vim
+        - ncdu
+        - iftop
+        - curl
+      state: latest
