@@ -1,8 +1,13 @@
+---
 - hosts: all
+  become: yes
+  strategy: linear
   tasks:
-  - name: Package installation
-    dnf:
-      name:
+    - name: Package installation
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      with_items:
         - git
         - htop
         - nmap
@@ -12,4 +17,8 @@
         - ncdu
         - iftop
         - curl
-      state: latest
+
+    - name: start apache2
+        service:
+            name: apache2
+            state: started
