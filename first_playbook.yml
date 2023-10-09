@@ -37,19 +37,13 @@
       copy:
         src: "/home/dominik.veleta/Desktop/Ansible-test/index.html"
         dest: "/var/www/{{ http_host }}/html/index.html"
-
-    - name: Change permissions to folder
-      file:
-        path: /var/www/{{ http_host }}/html
-        state: directory
-        owner: root
-        group: root
-        mode: 0755
     
     - name: Copy conf
       copy:
         src: "/home/dominik.veleta/Desktop/Ansible-test/test.conf"
         dest: "/etc/nginx/conf.d/"
+      notify:
+        - Restart nginx
     
     - name: FirewallD rules
       firewalld:
@@ -60,9 +54,9 @@
       with_items:
         - http
         - https
-
-    - name: Reload nginx
-      systemd:
+  handlers:
+    - name: Restart nginx
+      service:
         name: nginx
-        state: reloaded
+        state: restarted
 ...
