@@ -2,6 +2,8 @@
 - hosts: all
   become: yes
   strategy: linear
+  vars:
+    http_host: test
   tasks:
     - name: Package installation
       dnf:
@@ -11,23 +13,23 @@
         - git
         - htop
         - nmap
-        - httpd
+        - nginx
         - net-tools
         - vim
         - ncdu
         - iftop
         - curl
 
-    #- name: start apache2
-        #service:
-            #name: apache2
-            #state: started
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
 
     - name: Create document root
       file:
         path: "/var/www/{{ http_host }}"
         state: directory
-        owner: "httpd"
+        owner: "nginx"
         mode: '0755'
 
     - name: Copy index test page
@@ -35,8 +37,8 @@
         src: "/home/dominik.veleta/Desktop/Ansible-test/index.html"
         dest: "/var/www/{{ http_host }}/index.html"
 
-     #- name: Reload Apache
-      #service:
-        #name: apache2
-        #state: reloaded
+    - name: Reload nginx
+      service:
+        name: nginx
+        state: reloaded
 ...
