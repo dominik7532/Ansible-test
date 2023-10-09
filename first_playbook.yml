@@ -24,10 +24,11 @@
       service:
         name: nginx
         state: started
+        enabled: true
 
     - name: Create document root
       file:
-        path: "/var/www/{{ http_host }}"
+        path: "/var/www/{{ http_host }}/html"
         state: directory
         owner: "nginx"
         mode: '0755'
@@ -35,10 +36,33 @@
     - name: Copy index test page
       copy:
         src: "/home/dominik.veleta/Desktop/Ansible-test/index.html"
-        dest: "/var/www/{{ http_host }}/index.html"
+        dest: "/var/www/{{ http_host }}/html/index.html"
+
+    - name: Change permissions to folder
+      file:
+        path: /var/www/{{ http_host }}/html
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+    
+    - name: Copy conf
+      copy:
+        src: "/home/dominik.veleta/Desktop/Ansible-test/test.conf"
+        dest: "/etc/nginx/conf.d/"
+    
+    - name: FirewallD rules
+      firewalld:
+        permanent: yes
+        immediate: yes
+        service: "{{ item }}"
+        state: enabled
+      with_items:
+        - http
+        - https
 
     - name: Reload nginx
-      service:
+      systemd:
         name: nginx
         state: reloaded
 ...
