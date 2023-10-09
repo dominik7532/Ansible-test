@@ -3,7 +3,7 @@ This repository is only for testing purposes.
 
 Task assignment:
 
-1. it will install these packages: git, htop, nmap, apache2, net-tools, vim, ncdu, iftop, curl eventually its dependencies
+1. it will install these packages: git, htop, nmap, nginx, net-tools, vim, ncdu, iftop, curl eventually its dependencies
 2. it will create basic html index with this content:
 
 ```html
