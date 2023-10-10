@@ -19,3 +19,5 @@ Task assignment:
 ```
 
 3. and it will turn on the web server and it should be accesible from the web browser.
+
+Command to run it: ansible-playbook -u root --ask-pass -i <ip adress>, first_playbook.yml -D -C
